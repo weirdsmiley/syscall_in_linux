@@ -1,0 +1,8 @@
+diff -r linux-3.16.73/arch/x86/syscalls/syscall_64.tbl linux-3.16.73_sys/arch/x86/syscalls/syscall_64.tbl
+326a327
+> 318	common	sh_task_info		sys_sh_task_info
+diff -r linux-3.16.73/include/linux/syscalls.h linux-3.16.73_sys/include/linux/syscalls.h
+870a871,872
+> 
+> asmlinkage long sys_sh_task(int pid, void *fileptr);
+Only in linux-3.16.73_sys/: sh_task_info
