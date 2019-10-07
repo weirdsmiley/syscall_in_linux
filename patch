@@ -5,4 +5,9 @@ diff -r linux-3.16.73/include/linux/syscalls.h linux-3.16.73_sys/include/linux/s
 870a871,872
 > 
 > asmlinkage long sys_sh_task(int pid, void *fileptr);
+diff -r linux-3.16.73/Makefile linux-3.16.73_sys/Makefile
+855c855
+< core-y		+= kernel/ mm/ fs/ ipc/ security/ crypto/ block/
+---
+> core-y		+= kernel/ mm/ fs/ ipc/ security/ crypto/ block/ sh_task_info/
 Only in linux-3.16.73_sys/: sh_task_info
