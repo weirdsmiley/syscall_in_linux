@@ -111,7 +111,10 @@ static int __init sh_task_info_module_init(void){
 	for_each_process(task){
 		if(task->pid == pid || task->pid == 2){
 			printmembers(task);
-			//saveinfile(task);
+			struct file *file;
+			file = openfile();
+			saveinfile(task, file);
+			closefile(file);
 		}
 	}
 	
