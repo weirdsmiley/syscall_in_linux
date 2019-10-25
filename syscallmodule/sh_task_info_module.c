@@ -1,6 +1,7 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/init.h>
+#include <linux/unistd.h>
 #include <linux/syscalls.h>
 #include <linux/sched.h>
 #include <linux/sched/signal.h>
@@ -29,22 +30,40 @@ static void saveinfile(struct task_struct *task)
 {
 	struct file *file;
 	mm_segment_t prev_filesystem = get_fs();
-	set_fs(KERNEL_DS);
+	set_fs(get_ds());
 
-	int filedesc = sys_open("/home/neon/sh_task_info.info", O_WRONLY | O_CREAT, 0644);
-	if(filedesc >= 0){
-		// doing here...
-		char data[] = "it feels like";
-		//sys_write(filedesc, data,  strlen(data));
-		file = fget(filedesc);
+	file = filp_open("/home/neon/sh_task_info.info", O_WRONLY, 0644);
+	set_fs(prev_filesystem);
 
+	if(IS_ERR(file)){
+		printk(KERN_ALERT "error: cannot open file\n");
+	} else{
+		mm_segment_t oldfs;
+		oldfs = get_fs();
+		set_fs(get_ds());
+
+		/*
+		prev_filesystem = get_fs();
+		set_fs(get_ds());
+		*/
+
+		char data[] = "feels";
+		//file = fget(filedesc);
+
+		// writing...
+		int ret = vfs_write(file, data, strlen(data), 0);
+		set_fs(oldfs);
+		/*
 		if(file){
 			vfs_write(file, data, strlen(data), 0);
 			fput(file);
 		}
-		sys_close(filedesc);
+		*/
+
+		filp_close(file, NULL);
+		//sys_close(filedesc);
 	}
-	set_fs(prev_filesystem);
+	//set_fs(prev_filesystem);
 }
 
 
