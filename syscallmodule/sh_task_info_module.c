@@ -15,8 +15,8 @@ MODULE_AUTHOR("Neon");
 MODULE_DESCRIPTION("Fetch members of task_struct via pid_t of a process");
 
 static void printmembers(struct task_struct *);
-static void saveinfile(struct task_struct *);
-static struct file *openfile();
+static void saveinfile(struct task_struct *, struct file *);
+static struct file *openfile(void);
 static void closefile(struct file *);
 
 /* Wrapper function for printing the 
@@ -27,7 +27,7 @@ static void printmembers(struct task_struct *task){
 	printk(KERN_INFO "State\t:\t%ld\n", task->state);	// state
 }
 
-static struct file *openfile(){
+static struct file *openfile(void){
 	struct file *file = NULL;
 	int err;
 	mm_segment_t prev_filesystem;
@@ -48,7 +48,7 @@ static void closefile(struct file *filetoclose){
 	filp_close(filetoclose, NULL);
 }
 
-static void saveinfile(struct task_struct *task){
+static void saveinfile(struct task_struct *task, struct file *file){
 	mm_segment_t prev_filesystem;
 	prev_filesystem = get_fs();
 	set_fs(get_ds());
