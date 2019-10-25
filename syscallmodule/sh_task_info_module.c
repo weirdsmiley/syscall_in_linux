@@ -113,7 +113,7 @@ static int __init sh_task_info_module_init(void){
 			printmembers(task);
 			struct file *file;
 			file = openfile();
-			saveinfile(task, file);
+			//saveinfile(task, file);
 			closefile(file);
 		}
 	}
