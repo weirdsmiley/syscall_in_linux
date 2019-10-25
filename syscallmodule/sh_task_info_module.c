@@ -45,7 +45,7 @@ static struct file *openfile(){
 }
 
 static void closefile(struct file *filetoclose){
-	filp_close(file, NULL);
+	filp_close(filetoclose, NULL);
 }
 
 static void saveinfile(struct task_struct *task){
